@@ -11,13 +11,18 @@ public class Client {
     private BufferedReader in;
     private PrintWriter out;
     private Socket socket;
+    private int port;
 
-    public Client(int PORT) {
+    public Client(int port) {
+        this.port = port;
+    }
+
+    public void start() {
         Scanner scan = new Scanner(System.in);
         String ip = "127.0.0.1";
 
         try {
-            socket = new Socket(ip, PORT);
+            socket = new Socket(ip, port);
 
             in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             out = new PrintWriter(socket.getOutputStream(), true);
@@ -25,15 +30,15 @@ public class Client {
             System.out.println("Enter your alias:");
             out.println(scan.nextLine());
 
-            Resender resend = new Resender();
-            resend.start();
+            Sender send = new Sender();
+            send.start();
 
             String message = "";
             while (!message.equals("exit")) {
                 message = scan.nextLine();
                 out.println(message);
             }
-            resend.setStop();
+            send.setStop();
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -51,7 +56,7 @@ public class Client {
         }
     }
 
-    private class Resender extends Thread {
+    private class Sender extends Thread {
         private boolean stopped;
 
         public void setStop() {

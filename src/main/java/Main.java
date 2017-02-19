@@ -13,10 +13,10 @@ public class Main {
         while (true) {
             char input = Character.toLowerCase(in.nextLine().charAt(0));
             if (input == 's') {
-                new Server(PORT);
+                new Server(PORT).start();
                 break;
             } else if (input == 'c') {
-                new Client(PORT);
+                new Client(PORT).start();
                 break;
             } else {
                 System.out.println("Incorrect input. Try again.");

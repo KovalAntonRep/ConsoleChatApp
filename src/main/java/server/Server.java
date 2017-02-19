@@ -14,10 +14,15 @@ import java.util.List;
 public class Server {
     private List<Connection> connections = Collections.synchronizedList(new ArrayList<Connection>());
     private ServerSocket server;
+    private int port;
 
-    public Server(int PORT) {
+    public Server(int port) {
+        this.port = port;
+    }
+
+    public void start() {
         try {
-            server = new ServerSocket(PORT);
+            server = new ServerSocket(port);
 
             while (true) {
                 Socket socket = server.accept();
